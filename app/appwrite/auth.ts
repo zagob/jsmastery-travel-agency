@@ -19,9 +19,11 @@ export const getExistingUser = async (id: string) => {
 export const storeUserData = async () => {
   try {
     const user = await account.get();
+    console.log('user', user)
     if (!user) throw new Error("User not found");
 
     const { providerAccessToken } = (await account.getSession("current")) || {};
+
     const profilePicture = providerAccessToken
       ? await getGooglePicture(providerAccessToken)
       : null;
@@ -67,9 +69,10 @@ export const loginWithGoogle = async () => {
       OAuthProvider.Google,
       `${window.location.origin}/`,
       `${window.location.origin}/404`
-    );
-  } catch (error) {
-    console.error("Error during OAuth2 session creation:", error);
+    )
+
+  } catch(e) {
+    console.log('Error login with google', e)
   }
 };
 
